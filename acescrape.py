@@ -122,44 +122,44 @@ class TechCrunch(ScrapeSite):
             return writers_regex
 
 
-class BloombergMarkets(ScrapeSite):
-    """
-    Scraper for Bloomberg
-    Requires constant updating...
-    """
+class WaBar(ScrapeSite):
 
+    
     def __init__(self):
-        ScrapeSite.__init__(self, 'http://www.bloomberg.com/markets/')
+        ScrapeSite.__init__(self, 'https://www.mywsba.org/LawyerDirectory/LawyerProfile.aspx?Usr_ID={1}')
+    
+    name = "barSpider"
+    
+    
+    
+#    def start_requests(self):
+#       crawl_limit = 10
+#       y = 0 
+#       crawl_counter = 0
+#       for x in range(0, crawl_limit):
+#           y = y +1
+#           url = 'https://www.mywsba.org/LawyerDirectory/LawyerProfile.aspx?Usr_ID={1}'.format(y)
+#           yield scrapy.Request(url, self.parse)
+                
 
-    # Gather data from Bloomberg's markets page
-    def pull_data(self, market_choice=""):
-        names = self.soup.find_all('td', {"class": "name"})
-        values = self.soup.find_all('td', {"class": "value"})
-        change = self.soup.find_all('td', {"class": "percent_change"})
 
-        count = 0
-        full_table = []
-
-        # Creates a series of nested lists for the various markets listed on
-        # the page
-        for items in values:
-            full_table.append([str(names[count].get_text()), str(
-                values[count].get_text()), str(change[count].get_text())])
-            count += 1
-
-        # Creates individualized tuples for each marketplace
-        stock_markets = tuple(full_table[:8])
-        currencies = tuple(full_table[17:])
-        futures = tuple(full_table[9:16])
-
-        if market_choice == 'stock_markets':
-            return stock_markets
-        elif market_choice == 'currencies':
-            return currencies
-        elif market_choice == 'futures':
-            return futures
-        else:
-            return stock_markets, currencies, futures
+    def parse(self, response):
+        for lawyer in response.css('#content-left'):
+            yield {
+                'name': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblMemberName::text').extract_first(),
+                'admitted': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblAdmitDate::text').extract_first(),
+                'status': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblStatus::text').extract_first(),
+                'addresss': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblAddress::text').extract_first(),
+                'phone': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblPhone::text').extract_first(),
+                'TDD:' : lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblTDD::text').extract_first(),
+                'email' : lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblEmail::text').extract_first(),
+                'website' : lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_hlWebsite::text').extract_first(),
+                'practice areas': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblPracticeAreas::text').extract_first(),
+                'private practice': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblPrivatePractice::text').extract_first(),
+                'has insurance?': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblHasInsurance::text').extract_first(),
+                'languages': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblLanguages::text').extract_first(),
+                'memberships': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblCommittees::text').extract_first(),
+                'discipline': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblNodiscipline::text').extract_first(),
 
 
 # Instances
