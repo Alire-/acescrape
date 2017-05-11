@@ -1,1 +1,2 @@
-web: gunicorn acescrape:app scrapyd
+web: gunicorn acescrape:app 
+web: scrapyd
