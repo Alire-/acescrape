@@ -123,25 +123,18 @@ class TechCrunch(ScrapeSite):
 
 
 class WaBar(ScrapeSite):
-
-    
-    def __init__(self):
-        ScrapeSite.__init__(self, 'https://www.mywsba.org/LawyerDirectory/LawyerProfile.aspx?Usr_ID={1}')
-    
     name = "barSpider"
     
     
     
-#    def start_requests(self):
-#       crawl_limit = 10
-#       y = 0 
-#       crawl_counter = 0
-#       for x in range(0, crawl_limit):
-#           y = y +1
-#           url = 'https://www.mywsba.org/LawyerDirectory/LawyerProfile.aspx?Usr_ID={1}'.format(y)
-#           yield scrapy.Request(url, self.parse)
-                
-
+    def start_requests(self):
+        crawl_limit = 10
+        y = 0 
+        crawl_counter = 0
+        for x in range(0, crawl_limit):
+            y = y +1
+            url = 'https://www.mywsba.org/LawyerDirectory/LawyerProfile.aspx?Usr_ID={0}'.format(y)
+            yield scrapy.Request(url, self.parse)
 
     def parse(self, response):
         for lawyer in response.css('#content-left'):
@@ -188,9 +181,9 @@ def front_page():
 @app.route('/finance')
 def finance_page():
     return render_template('finance.html',
-                           stock_markets=BMScraper.pull_data('stock_markets'),
-                           futures=BMScraper.pull_data('futures'),
-                           currencies=BMScraper.pull_data('currencies'))
+                           stock_markets=BMScraper.lawyer('name'),
+                           futures=BMScraper.lawyer('admitted'),
+                           currencies=BMScraper.lawyer('status'))
 
 if __name__ == '__main__':
     app.run(debug=True)
