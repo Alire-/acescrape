@@ -153,7 +153,7 @@ class WaBar(ScrapeSite):
                 'languages': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblLanguages::text').extract_first(),
                 'memberships': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblCommittees::text').extract_first(),
                 'discipline': lawyer.css('#dnn_ctr671_MyWSBA_LawyerProfile_lblNodiscipline::text').extract_first(),
-
+            }
 
 # Instances
 RedditScraper = Reddit()
