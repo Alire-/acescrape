@@ -122,7 +122,7 @@ class TechCrunch(ScrapeSite):
             return writers_regex
 
 
-class WaBar(ScrapeSite):
+class WaBar(scrapy.Spider):
     name = "barSpider"
     
     
