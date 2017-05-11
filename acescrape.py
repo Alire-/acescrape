@@ -159,7 +159,7 @@ class WaBar(scrapy.Spider):
 # Instances
 RedditScraper = Reddit()
 TCScraper = TechCrunch()
-BMScraper = BloombergMarkets()
+BMScraper = WaBar()
 
 
 @app.context_processor
