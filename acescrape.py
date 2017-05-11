@@ -4,6 +4,7 @@ from re import findall
 from flask import Flask
 from flask import render_template
 import time
+import scrapy
 
 tagline = "Scraping only the finest data"
 
